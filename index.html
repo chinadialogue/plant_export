@@ -1,0 +1,890 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+      <title>Meat plants in the Amazon region that export beef to China & Hong Kong</title>
+      <meta name="description" content="Meat plants in the Amazon region that export beef to China & Hong Kong">
+      <meta name="author" content="Julia Janicki">
+      <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+      <link href="https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700&display=swap" rel="stylesheet">
+      <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js'></script>
+      <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet' />
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+      <style>
+      body {
+        margin: 0;
+        padding: 0;
+        color: #0C1B34;
+        font-family: 'Work Sans', serif;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      h1 {
+        font-size: 17px;
+        line-height: 25px;
+      }
+      h2 {
+        font-size: 15px;
+        line-height: 20px;
+        margin-bottom: 10px;
+      }
+      a {
+        text-decoration: none;
+        color: #2dc4b2;
+      }
+      .subtitle{
+        font-size:14px;
+      }
+      #console {
+        position: absolute;
+        width: 300px;
+        margin: 10px;
+        padding: 10px 20px 10px 30px;
+        background-color: #F0F0F1;
+        border-radius: 5px;
+        z-index: 15;
+        transition: 0.3s ease-in-out;
+        box-shadow: 0 1px 1px 0 rgba(66, 66, 66, 0.08), 0 1px 3px 1px rgba(66, 66, 66, 0.16);
+      }
+      .active{
+        transform:translate3d(-280px,0,0);
+        transition: 0.3s ease-in-out;
+      }
+
+      .itemWrapper{
+        margin-top: -20px;
+      }
+
+      #toggleConsole{
+        position:absolute;
+        right:5px;
+        top:0px;
+      }
+      #toggleConsole img{
+        width:16px;
+        opacity: 0.7;
+      }
+      #toggleConsole img:hover{
+        opacity: 0.5;
+        transition: all .5s ease;
+        cursor:pointer;
+      }
+      .toggle {
+        position: relative;
+        height: 14px;
+        width: 35px;
+        border-radius: 15px;
+        background: #cfcfcf;
+        margin: 8px 0;
+      }
+      .toggle input {
+        opacity: 0;
+        width: 100%;
+        height: 200%;
+        position: absolute;
+        top: -7px;
+        left: 0;
+        z-index: 2;
+        margin: 0
+      }
+      .toggle input:nth-child(2):checked {
+        z-index: 1;
+      }
+      .toggle__pointer {
+        position: absolute;
+        top: -3.5px;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        background-color: #D86449;
+        -webkit-transition: left .15s ease-out;
+        transition: left .15s ease-out;
+      }
+      .toggle input:nth-child(2):checked + .toggle__pointer {
+        left: 18px;
+        background-color: #777777;
+      }
+
+      .flip{
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        opacity: 1;
+      }
+      #console h1,
+      #console h2 {
+        text-align: left;
+      }
+      .verticalLine {
+        margin-right: 5px;
+        border-right: 0.3px solid #ECE8E1;
+      }
+
+      #title {
+        font-family: 'Enriqueta', serif;
+        color: #0c1b34;
+        font-weight: 700;
+        margin-left: -10px;
+        margin-bottom: 15px;
+      }
+      #title a{
+        color:#0c1b34;
+      }
+      #title a:hover{
+        color: #F4B657;
+        transition: all 1s ease;
+        text-decoration: underline !important;
+      }
+      .mapboxgl-popup {
+        max-width: 300px !important;
+        font-family: 'Work Sans', sans-serif;
+        text-align: left;
+        z-index: 20;
+        /* transform:none !important; */
+      }
+      .mapboxgl-popup-content {
+        font-family: 'Work Sans', sans-serif;
+        padding: 0;
+      }
+      .mapboxgl-popup-content-wrapper {
+        padding: 1%;
+      }
+      .mapboxgl-popup-content h3 {
+        text-align: left;
+        font-size:16px;
+        margin: 0;
+        display: block;
+        padding: 15px;
+        font-weight: 700;
+        margin-top: -5px;
+      }
+      .mapboxgl-popup.china h3 {
+        background: #F4B657 !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup.hk h3 {
+        background: #09979C !important;
+        color: #fff;
+      }
+
+      .mapboxgl-popup-content h4 {
+        margin: 0;
+        display: block;
+        font-size:14px;
+        padding: 10px 3px 10px 10px;
+        font-weight: 400;
+      }
+      .mapboxgl-container {
+        cursor: pointer;
+      }
+      .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
+        margin-top: 3px;
+      }
+      .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+        border-bottom-color: rgb(61, 59, 59);
+      }
+      .mapboxgl-popup-close-button{
+        transform:scale(2);
+        color:white;
+        padding:0px;
+        margin-right: 10px;
+      }
+      .mapboxgl-popup-close-button:hover,.mapboxgl-popup-close-button:active,.mapboxgl-popup-close-button:target{
+        background:none !important;
+        border: none !important;
+        outline: none!important;
+        color:#cfcfcf;
+        transition: all 0.5s ease;
+      }
+      .filters{
+        margin-top: 20px;
+      }
+      .legend.label{
+        display:inline;
+      }
+      .legend img{
+        width:10px;
+        height:10px;
+        display:inline;
+      }
+      .label{
+        color:black;
+        font-size:12px;
+        font-weight:400;
+      }
+      .instruction{
+        margin-left: -15px;
+        margin-top:20px;
+      }
+      .instruction p{
+        color:#007979;
+        font-weight: 700;
+        font-size:12px;
+      }
+      .button {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 1.5;
+        text-transform: uppercase;
+        background-color: none;
+        max-width: 200px;
+        text-align: center;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+        padding: 10px;
+      }
+      .button.china{
+        color: #F4B657;
+        border: 1.5px solid  #F4B657;
+      }
+      .button.hk{
+        color: #09979C;
+        border: 1.5px solid  #09979C;
+      }
+
+      .button.china a{
+        color: #F4B657;
+      }
+      .button.hk a{
+        color: #09979C;
+      }
+
+      .button:hover {
+        cursor: pointer;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+      }
+      a:hover{
+        text-decoration: none !important;
+      }
+      .item{
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      .item2{
+        display: inline-block;
+        margin-left: 2px;
+        font-size: 12px;
+      }
+      .item3{
+        display: inline-block;
+        margin-left: 6px;
+        font-size: 12px;
+        width:20px;
+        height:20px;
+      }
+      .popupTitle{
+        font-family: 'Enriqueta', serif;
+      }
+      .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+      /* border-bottom-color: rgb(61, 59, 59); */
+      }
+      #loading {
+      top: 0;
+      left: 0;
+      position: fixed;
+      display: block;
+      opacity: .7;
+      background-color: #fff;
+      z-index: 99;
+      }
+      #loading-image {
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: calc(50vh - 80px);
+      z-index: 100;
+      }
+      #loading{
+      width: 100%;
+      text-align: center;
+      height: 100%;
+      }
+
+      #minCircle{
+        width: 13px;
+        height: 13px;
+      }
+
+      #maxCircle{
+        width: 38px;
+        height: 38px;
+      }
+
+      #legendInstruction p:hover{
+        cursor:pointer;
+        opacity: 0.7;
+        transition: all .4s ease;
+      }
+      #logo{
+        position: absolute;
+        bottom:22px;
+        right:0px;
+        z-index:5;
+      }
+      #logo img{
+        width:120px;
+      }
+      @media screen and (max-width: 800px) {
+
+        #console {
+          width: 250px;
+        }
+        .active{
+          transform:translate3d(-230px,0,0);
+        }
+        .label{
+          font-size:10px;
+          margin-left:-5px;
+        }
+        .item2{
+          font-size:10px;
+          margin-left:2px;
+        }
+        h1{
+          font-size:16px;
+        }
+        h2{
+          font-size:12px;
+        }
+        #console{
+          padding: 10px 20px;
+        }
+        #title{
+          margin-top:-10px;
+        }
+        .mapboxgl-popup {
+          max-width: 250px !important;
+        }
+        #legendCol1{
+          margin-left: -10px !important;
+        }
+        #legendCol2{
+          margin-left: -20px !important;
+        }
+      }
+      @media screen and (max-width: 600px) {
+        body{
+        font-size:11px !important;
+        }
+        #title{
+          font-size:13px;
+        }
+        .subtitle{
+          font-size:12px;
+        }
+        .active{
+        transform:translate3d(-230px,0,0);
+        }
+        .label{
+        font-size:10px;
+        margin-left:-5px;
+        }
+        .item2{
+        font-size:9px;
+        margin-left:1px;
+        }
+        .item3{
+          width: 15px;
+          height: 15px;
+        }
+        .legendTitleAll{
+          margin-top: -5px;
+        }
+        #sliderControls{
+          margin-top: -10px;
+        }
+        h1{
+        font-size:14px;
+        }
+        h2{
+        font-size:12px;
+        }
+        .instruction p{
+          font-size:10px;
+        }
+        #legendCol1{
+        margin-left: -10px !important;
+        }
+        #legendCol2{
+        margin-left: -20px !important;
+        }
+
+
+
+       .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-center .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+       .mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{
+           display:none !important;
+       }
+       #logo{
+         position: absolute;
+         bottom:15px;
+         right:0px;
+       }
+       #logo img{
+         width:100px;
+       }
+      }
+      @media screen and (max-width: 500px) {
+        .mapboxgl-popup {
+          transform:none !important;
+          top: 20px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      </style>
+   </head>
+   <body>
+      <div id='map'></div>
+      <div id='logo'>
+        <img src="./img/logo.png"/>
+      </div>
+      <div id='console'>
+         <div class="verticalLine">
+            <span id="toggleConsole">
+            <img src="./img/toggle.png" />
+            </span>
+            <h1 id='title'>Meat plants in the Amazon region that export beef to China & Hong Kong</h1>
+            <div class='row itemWrapper'>
+               <h2 class="subtitle"> Fires </h2>
+            </div>
+            <div class="itemWrapper">
+              <div class='row toggle item filters' id="filterFires">
+                 <input id='' type="radio" value="firesOn" name="toggle" checked='checked'>
+                 <input id='' type="radio" value="firesOff" name="toggle">
+                 <div class="toggle__pointer"></div>
+              </div>
+            </div>
+            <div class='row itemWrapper'>
+               <h2 class="subtitle"> Plant Capacity </h2>
+               <div class="">
+                  <img id="minCircle" class='item2' src="./img/legend4.svg" /img>
+                  <p id="minCircleVal" class='item2'></p>
+                  <img id="maxCircle" class='item2' src="./img/legend4.svg" /img>
+                  <p id="maxCircleVal" class='item2'></p>
+               </div>
+            </div>
+            <div class="instruction itemWrapper" id="instruction">
+               <p class="item">Click on the circles for more information</p>
+            </div>
+         </div>
+         <!-- end line -->
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.14.2/d3.js"></script>
+      <script src="./data/fires_cleaned.js"></script>
+      <script>
+      var windowWidth = $(window).width();
+      var windowHeight = $(window).height();
+      var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+      var mobile = false;
+      var iphone = false;
+      var safari = false;
+
+      $(window).resize(function() {
+          if (windowWidth != $(window).width() || windowHeight != $(window).height()) {
+              location.reload();
+              return;
+          }
+      });
+
+      if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || viewportWidth < 600) {
+          mobile = true;
+      }
+
+      //console.log(mobile);
+
+      if (/iPhone/i.test(navigator.userAgent)) {
+          iphone = true;
+      } else {
+          //console.log(/iPhone/i.test(navigator.userAgent))
+      }
+
+      //if Safari
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf('safari') != -1) {
+          if (ua.indexOf('chrome') > -1) { // Chrome
+          } else { // Safari
+              safari = true;
+          }
+      }
+
+      if (viewportWidth < 700) {
+          $("#instruction").css("display", "none");
+      } else {
+          $("#instruction").css("display", "inherit");
+      }
+
+      var legendShow = false;
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoidGhldGhpcmRwb2xlIiwiYSI6ImNLSWVDcWsifQ.vVx5f1hjIvHBeSpaY3NUkQ';
+
+      var map;
+      var popup;
+
+      var geoJsonData = {
+          'type': 'FeatureCollection',
+          'features': []
+      };
+
+      var filterFires = ['==', ['string', ['get', 'Hazard_Rank']], 'I'];
+
+      var min = 0;
+      var max = 0;
+      var minCircleSize = 3;
+      var maxCircleSize = 15;
+
+      if (mobile) {
+
+          map = new mapboxgl.Map({
+              container: 'map', // container element id
+              style: 'mapbox://styles/thethirdpole/ckdpz2qxd0p2p1illi3gqjxuk',
+              center: [-60.905747,-10.014815], // initial map center in [lon, lat]
+              zoom: 3,
+              minZoom: 3
+          });
+
+      } else {
+
+          map = new mapboxgl.Map({
+              container: 'map', // container element id
+              style: 'mapbox://styles/thethirdpole/ckdpz2qxd0p2p1illi3gqjxuk',
+              center: [-60.905747,-10.014815], // initial map center in [lon, lat]
+              zoom: 4,
+              minZoom: 2
+          });
+
+      }
+
+
+      var consoleHeight = $("#console").height() / 2;
+      $("#toggleConsole").css("top", consoleHeight);
+
+
+      map.on('load', function() {
+
+          init(); // test google sheet
+          $("#toggleConsole").click(function() {
+              $("#console").toggleClass("active");
+              $("#toggleConsole img").toggleClass("flip");
+          });
+
+
+      });
+
+      if (!mobile) {
+          map.addControl(new mapboxgl.NavigationControl());
+      }
+
+
+
+      function init() {
+        map.addSource('amazon', {
+           type: 'geojson',
+           data: './data/amazon.geojson'
+         });
+
+          map.addLayer({
+             'id': 'amazon',
+             'type': 'line',
+             'source': 'amazon',
+             'paint': {
+             'line-color': '#189B68',
+             'line-opacity': 0.6,
+             'line-width':1
+             }
+          });
+
+          map.addLayer({
+             'id': 'amazon2',
+             'type': 'fill',
+             'source': 'amazon',
+             'paint': {
+             'fill-color': '#189B68',
+             'fill-opacity': 0.1
+             }
+          });
+
+            map.addLayer({
+                id: 'fires',
+                type: 'circle',
+                source: {
+                    type: 'geojson',
+                    data: fires
+                },
+                paint: {
+                  'circle-color': ["case", ["<=",
+                    ["to-string", ["get", "datahora"]],
+                    ["to-string", "2020-08-01"]
+                  ], "#fed976", ["<=",
+                    ["to-string", ["get", "datahora"]],
+                    ["to-string", "2020-09-01"]
+                  ],"#fd8d3c","#DF4C3B"],
+                    'circle-radius': 3,
+                    'circle-opacity': 0.9
+                }
+            });
+
+            Tabletop.init({
+                key: 'https://docs.google.com/spreadsheets/d/1krNuJXPYF9y4J2dSO4yolvpuflAAdQdKLuPw-a8mNjU/edit?usp=sharing',
+                callback: onDataLoad,
+                simpleSheet: true
+            });
+
+        // map.on('render', onDataLoad);
+      }
+
+
+
+      function onDataLoad(data) {
+        console.log(data);
+
+
+          $('#loading').hide();
+
+
+          document.getElementById('filterFires').addEventListener('change', function(e) {
+
+              //update the map filter
+              if (e.target.value === 'firesOn') {
+                  map.setPaintProperty('fires','circle-opacity',0.9);
+              } else {
+                  map.setPaintProperty('fires','circle-opacity',0);
+              }
+
+          });
+
+
+          data.forEach(function(row) {
+
+              // to deal with null lat lon values
+
+
+                  if (+row.SIF < min) {
+                      min = +row.SIF;
+                  }
+                  if (+row.SIF > max) {
+                      max = +row.SIF;
+                  }
+
+
+              var feature = {
+                  'type': 'Feature',
+                  'properties': {
+                      'longitude': +row.Longitude,
+                      'latitude': +row.Latitude,
+                      'company': row.Company,
+                      'city': row.City,
+                      'state': row.State,
+                      'place': row.Place,
+                      'SIF': +row.SIF,
+                      'Amazon': row.Amazon
+                  },
+                  'geometry': {
+                      'type': 'Point',
+                      'coordinates': [+row.Longitude,+row.Latitude],
+                  }
+              };
+
+              geoJsonData['features'].push(feature);
+
+          });
+
+          console.log(geoJsonData);
+
+
+
+          map.addLayer({
+              id: 'plants',
+              type: 'circle',
+              source: {
+                  type: 'geojson',
+                  data: geoJsonData
+              },
+              paint: {
+                'circle-stroke-color':'#000000',
+                'circle-stroke-width':1.5,
+                'circle-stroke-opacity':1,
+                  "circle-color": [
+                      "case",
+                      ["==", ["get", "place"], 'Continental China/HK'],
+                      "#F4B657",
+                      '#09979C'
+
+                  ],
+                  'circle-radius': [
+                      'interpolate',
+                      ['linear'],
+                      ['get', 'SIF'],
+                      min,
+                      minCircleSize,
+                      max,
+                      maxCircleSize
+                  ],
+                  'circle-opacity': 0.8
+              }
+          });
+
+
+          $("#minCircleVal").html(`${min}`);
+          $("#maxCircleVal").html(`${max}`);
+
+
+
+
+          map.on('mouseenter', 'plants', function(e) {
+              map.getCanvas().style.cursor = 'pointer';
+          });
+
+
+          map.on('mouseleave', 'plants', function() {
+              map.getCanvas().style.cursor = '';
+              // popup.remove();
+          });
+
+
+
+          map.on('click', 'plants', function(e) {
+            console.log(e);
+              map.getCanvas().style.cursor = 'pointer';
+              var latitude = e.features[0].properties.latitude;
+              var longitude = e.features[0].properties.longitude;
+              var company = e.features[0].properties.company;
+              var city = e.features[0].properties.city;
+              var state = e.features[0].properties.state;
+              var place = e.features[0].properties.place;
+              var sif = e.features[0].properties.SIF;
+              var amazon = e.features[0].properties.Amazon;
+
+
+              while (Math.abs(e.lngLat.lng - latitude) > 180) {
+                  latitude += e.lngLat.lng > latitude ? 360 : -360;
+              }
+
+              var popupClass="";
+              if(place == 'Continental China/HK'){
+                popupClass = 'china';
+              }else{
+                popupClass = 'hk';
+              }
+
+                  popup = new mapboxgl.Popup({
+                          closeButton: true,
+                          closeOnClick: true,
+                          className: popupClass
+                      })
+                      .setHTML('<h3 class="popupTitle">' + company + '</h3>' +
+                          '<h4><b> City: </b>' + city + '</h4>' +
+                          '<h4><b> State: </b>' + state + '</h4>' +
+                          '<h4><b> Number of cattle: </b>' + sif + '</h4>')
+                      .setLngLat([longitude, latitude])
+                      .addTo(map);
+
+                      console.log(popup);
+
+
+              $(`.button.${popupClass}`).hover(function() {
+                  console.log("hover")
+                  $(".button a").css("color", "white");
+                  $(this).css("background-color", "#F4B657");
+              }, function() {
+                  $(".button a").css("color", "#F4B657");
+                  $(this).css("background-color", "white");
+              });
+              $(".mapboxgl-popup-tip").css("border-bottom-color", "#F4B657");
+
+
+          });
+
+
+
+          //mobile
+
+          map.on('touchstart', 'layer1', function(e) {
+            console.log(e);
+              map.getCanvas().style.cursor = 'pointer';
+              var latitude = e.features[0].properties.latitude;
+              var longitude = e.features[0].properties.longitude;
+              var basin = e.features[0].properties.basin;
+              var sub_basin = e.features[0].properties.sub_basin;
+              var area = e.features[0].properties.area;
+              var elevation = e.features[0].properties.elevation;
+              var hazard_rank = e.features[0].properties.hazard_rank;
+              var country = e.features[0].properties.country;
+
+
+              while (Math.abs(e.lngLat.lng - latitude) > 180) {
+                  latitude += e.lngLat.lng > latitude ? 360 : -360;
+              }
+
+              var popupClass = "one";
+
+
+                  popup = new mapboxgl.Popup({
+                          closeButton: true,
+                          closeOnClick: true,
+                          className: popupClass
+                      })
+                      .setHTML('<h3 class="popupTitle">' + basin + ' Basin</h3>' +
+                          '<h4><b> Subbasin: </b>' + sub_basin + '</h4>' +
+                          '<h4><b> Elevation: </b>' + elevation + ' m</h4>' +
+                          '<h4><b> Area: </b>' + area + ' sq. km</h4>' +
+                          '<h4><b> Country: </b>' + country + '</h4>' )
+                      .setLngLat([longitude, latitude])
+                      .addTo(map);
+
+                      console.log(popup);
+
+
+              $(`.button.${popupClass}`).hover(function() {
+                  console.log("hover")
+                  $(".button a").css("color", "white");
+                  $(this).css("background-color", "#F4B657");
+              }, function() {
+                  $(".button a").css("color", "#F4B657");
+                  $(this).css("background-color", "white");
+              });
+              $(".mapboxgl-popup-tip").css("border-bottom-color", "#F4B657");
+
+
+          });
+
+
+
+      }
+       </script>
+    </body>
+    <div id="loading">
+       <img id="loading-image" src="./img/load.gif" alt="Loading..." />
+    </div>
+ </html>
