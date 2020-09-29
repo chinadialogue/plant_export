@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-      <title>Meat plants in the Amazon region that export beef to China & Hong Kong</title>
+      <title>Meat plants in the Amazon region licensed to export beef to China & Hong Kong</title>
       <meta name="description" content="Meat plants in the Amazon region that export beef to China & Hong Kong">
       <meta name="author" content="Julia Janicki">
       <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
@@ -40,6 +40,7 @@
       }
       .subtitle{
         font-size:14px;
+        margin-top: 30px;
       }
       #console {
         position: absolute;
@@ -103,13 +104,73 @@
         width: 20px;
         height: 20px;
         border-radius: 15px;
-        background-color: #D86449;
+        background-color: #fed976;
         -webkit-transition: left .15s ease-out;
         transition: left .15s ease-out;
       }
       .toggle input:nth-child(2):checked + .toggle__pointer {
         left: 18px;
         background-color: #777777;
+      }
+
+      .toggle__pointerAugust {
+        position: absolute;
+        top: -3.5px;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        background-color: #fd8d3c;
+        -webkit-transition: left .15s ease-out;
+        transition: left .15s ease-out;
+      }
+      .toggle input:nth-child(2):checked + .toggle__pointerAugust {
+        left: 18px;
+        background-color: #777777;
+      }
+
+      .toggle__pointerSept {
+        position: absolute;
+        top: -3.5px;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        background-color: #DF4C3B;
+        -webkit-transition: left .15s ease-out;
+        transition: left .15s ease-out;
+      }
+      .toggle input:nth-child(2):checked + .toggle__pointerSept {
+        left: 18px;
+        background-color: #777777;
+      }
+
+        .circlesWrapper {
+          position: relative;
+          height: 14px;
+          width: 14px;
+          border-radius: 15px;
+          margin: 20px 0 10px 0;
+        }
+      .circlesRegion {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        border: 1px solid black;
+      }
+
+      .circlesRegion.china {
+        background-color: #F4B657;
+      }
+      .circlesRegion.hongkong {
+        background-color: #09979C;
+      }
+
+      .circlesLegend{
+        margin-top: 5px;
       }
 
       .flip{
@@ -131,7 +192,7 @@
         color: #0c1b34;
         font-weight: 700;
         margin-left: -10px;
-        margin-bottom: 15px;
+        margin-bottom: 5px;
       }
       #title a{
         color:#0c1b34;
@@ -146,15 +207,12 @@
         font-family: 'Work Sans', sans-serif;
         text-align: left;
         z-index: 20;
-        /* transform:none !important; */
       }
       .mapboxgl-popup-content {
         font-family: 'Work Sans', sans-serif;
         padding: 0;
       }
-      .mapboxgl-popup-content-wrapper {
-        padding: 1%;
-      }
+
       .mapboxgl-popup-content h3 {
         text-align: left;
         font-size:16px;
@@ -164,23 +222,20 @@
         font-weight: 700;
         margin-top: -5px;
       }
-      .mapboxgl-popup.china h3 {
-        background: #F4B657 !important;
-        color: #fff;
-      }
-
-      .mapboxgl-popup.hk h3 {
-        background: #09979C !important;
-        color: #fff;
-      }
 
       .mapboxgl-popup-content h4 {
-        margin: 0;
-        display: block;
-        font-size:14px;
-        padding: 10px 3px 10px 10px;
-        font-weight: 400;
+        padding: 20px;
+        font-size:16px;
       }
+
+      .mapboxgl-popup.chinaHK {
+        color: #F4B657;
+      }
+
+      .mapboxgl-popup.HK{
+        color: #09979C ;
+      }
+
       .mapboxgl-container {
         cursor: pointer;
       }
@@ -192,7 +247,7 @@
       }
       .mapboxgl-popup-close-button{
         transform:scale(2);
-        color:white;
+        color:#767676;
         padding:0px;
         margin-right: 10px;
       }
@@ -285,10 +340,11 @@
       }
       .item3{
         display: inline-block;
-        margin-left: 6px;
+        margin-left: 14px;
         font-size: 12px;
         width:20px;
         height:20px;
+        margin-top:20px;
       }
       .popupTitle{
         font-family: 'Enriqueta', serif;
@@ -471,26 +527,68 @@
             <span id="toggleConsole">
             <img src="./img/toggle.png" />
             </span>
-            <h1 id='title'>Meat plants in the Amazon region that export beef to China & Hong Kong</h1>
+            <h1 id='title'>Meat plants in the Amazon region licensed to export beef to China & Hong Kong</h1>
             <div class='row itemWrapper'>
                <h2 class="subtitle"> Fires </h2>
             </div>
             <div class="itemWrapper">
-              <div class='row toggle item filters' id="filterFires">
+              <div class='row toggle item filters' id="filterFiresJuly">
                  <input id='' type="radio" value="firesOn" name="toggle" checked='checked'>
                  <input id='' type="radio" value="firesOff" name="toggle">
                  <div class="toggle__pointer"></div>
               </div>
+              <div class="item">
+                 <h2 id="july">July</h2>
+              </div>
+            </div>
+            <div class="itemWrapper">
+              <div class='row toggle item filters' id="filterFiresAugust">
+                 <input id='' type="radio" value="firesOn" name="toggleAugust" checked='checked'>
+                 <input id='' type="radio" value="firesOff" name="toggleAugust">
+                 <div class="toggle__pointerAugust"></div>
+              </div>
+              <div class="item">
+                 <h2 id="august">August</h2>
+              </div>
+            </div>
+            <div class="itemWrapper">
+              <div class='row toggle item filters' id="filterFiresSept">
+                 <input id='' type="radio" value="firesOn" name="toggleSept" checked='checked'>
+                 <input id='' type="radio" value="firesOff" name="toggleSept">
+                 <div class="toggle__pointerSept"></div>
+              </div>
+              <div class="item">
+                 <h2 id="sept">September</h2>
+              </div>
             </div>
             <div class='row itemWrapper'>
-               <h2 class="subtitle"> Plant Capacity </h2>
-               <div class="">
-                  <img id="minCircle" class='item2' src="./img/legend4.svg" /img>
-                  <p id="minCircleVal" class='item2'></p>
-                  <img id="maxCircle" class='item2' src="./img/legend4.svg" /img>
-                  <p id="maxCircleVal" class='item2'></p>
-               </div>
+               <h2 class="subtitle"> Export Region </h2>
             </div>
+            <div class="itemWrapper">
+              <div class="circlesWrapper item">
+                <div class="circlesRegion china"></div>
+              </div>
+              <div class="circlesLegend item">
+                 <h2>Continental China/HK</h2>
+              </div>
+            </div>
+            <div class="itemWrapper">
+              <div class="circlesWrapper item">
+                <div class="circlesRegion hongkong"></div>
+              </div>
+              <div class="circlesLegend item">
+                 <h2>Hong Kong</h2>
+              </div>
+            </div>
+            <div class='row itemWrapper'>
+               <h2 class="subtitle"> Amazon </h2>
+            </div>
+            <div class='row itemWrapper'>
+              <div class="item">
+                <img class='item3' src="./img/legend.svg" /img>
+              </div>
+            </div>
+
             <div class="instruction itemWrapper" id="instruction">
                <p class="item">Click on the circles for more information</p>
             </div>
@@ -500,7 +598,10 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
       <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.14.2/d3.js"></script>
-      <script src="./data/fires_cleaned.js"></script>
+      <!-- <script src="./data/fires_cleaned.js"></script> -->
+      <script src="./data/firesJuly.js"></script>
+      <script src="./data/firesAugust.js"></script>
+      <script src="./data/firesSept.js"></script>
       <script>
       var windowWidth = $(window).width();
       var windowHeight = $(window).height();
@@ -547,7 +648,7 @@
 
       var legendShow = false;
 
-      mapboxgl.accessToken = 'pk.eyJ1IjoidGhldGhpcmRwb2xlIiwiYSI6ImNLSWVDcWsifQ.vVx5f1hjIvHBeSpaY3NUkQ';
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZGlhbG9nb2NoaW5vIiwiYSI6ImNrOWNtbzRoNzA1M3Eza25tZ3cweGYyNjUifQ.xBZqG3UrpzYxxQOUXGqE1A';
 
       var map;
       var popup;
@@ -568,7 +669,7 @@
 
           map = new mapboxgl.Map({
               container: 'map', // container element id
-              style: 'mapbox://styles/thethirdpole/ckdpz2qxd0p2p1illi3gqjxuk',
+              style: 'mapbox://styles/dialogochino/ckfnw7pqc173k19o37g4vkk6n',
               center: [-60.905747,-10.014815], // initial map center in [lon, lat]
               zoom: 3,
               minZoom: 3
@@ -578,7 +679,7 @@
 
           map = new mapboxgl.Map({
               container: 'map', // container element id
-              style: 'mapbox://styles/thethirdpole/ckdpz2qxd0p2p1illi3gqjxuk',
+              style: 'mapbox://styles/dialogochino/ckfnw7pqc173k19o37g4vkk6n',
               center: [-60.905747,-10.014815], // initial map center in [lon, lat]
               zoom: 4,
               minZoom: 2
@@ -640,16 +741,46 @@
                 type: 'circle',
                 source: {
                     type: 'geojson',
-                    data: fires
+                    data: firesJuly
                 },
                 paint: {
-                  'circle-color': ["case", ["<=",
-                    ["to-string", ["get", "datahora"]],
-                    ["to-string", "2020-08-01"]
-                  ], "#fed976", ["<=",
-                    ["to-string", ["get", "datahora"]],
-                    ["to-string", "2020-09-01"]
-                  ],"#fd8d3c","#DF4C3B"],
+                  'circle-color': "#fed976",
+                    'circle-radius': 3,
+                    'circle-opacity': 0.9
+                }
+            });
+
+            // 'circle-color': ["case", ["<=",
+            //   ["to-string", ["get", "datahora"]],
+            //   ["to-string", "2020-08-01"]
+            // ], "#fed976", ["<=",
+            //   ["to-string", ["get", "datahora"]],
+            //   ["to-string", "2020-09-01"]
+            // ],"#fd8d3c","#DF4C3B"]
+
+            map.addLayer({
+                id: 'fires2',
+                type: 'circle',
+                source: {
+                    type: 'geojson',
+                    data: firesAugust
+                },
+                paint: {
+                  'circle-color': "#fd8d3c",
+                    'circle-radius': 3,
+                    'circle-opacity': 0.9
+                }
+            });
+
+            map.addLayer({
+                id: 'fires3',
+                type: 'circle',
+                source: {
+                    type: 'geojson',
+                    data: firesSept
+                },
+                paint: {
+                  'circle-color': "#DF4C3B",
                     'circle-radius': 3,
                     'circle-opacity': 0.9
                 }
@@ -673,13 +804,36 @@
           $('#loading').hide();
 
 
-          document.getElementById('filterFires').addEventListener('change', function(e) {
+
+          document.getElementById('filterFiresJuly').addEventListener('change', function(e) {
 
               //update the map filter
               if (e.target.value === 'firesOn') {
                   map.setPaintProperty('fires','circle-opacity',0.9);
               } else {
                   map.setPaintProperty('fires','circle-opacity',0);
+              }
+
+          });
+
+          document.getElementById('filterFiresAugust').addEventListener('change', function(e) {
+
+              //update the map filter
+              if (e.target.value === 'firesOn') {
+                  map.setPaintProperty('fires2','circle-opacity',0.9);
+              } else {
+                  map.setPaintProperty('fires2','circle-opacity',0);
+              }
+
+          });
+
+          document.getElementById('filterFiresSept').addEventListener('change', function(e) {
+
+              //update the map filter
+              if (e.target.value === 'firesOn') {
+                  map.setPaintProperty('fires3','circle-opacity',0.9);
+              } else {
+                  map.setPaintProperty('fires3','circle-opacity',0);
               }
 
           });
@@ -742,18 +896,20 @@
                       '#09979C'
 
                   ],
-                  'circle-radius': [
-                      'interpolate',
-                      ['linear'],
-                      ['get', 'SIF'],
-                      min,
-                      minCircleSize,
-                      max,
-                      maxCircleSize
-                  ],
+                  'circle-radius': 7,
                   'circle-opacity': 0.8
               }
           });
+
+          // 'circle-radius': [
+          //     'interpolate',
+          //     ['linear'],
+          //     ['get', 'SIF'],
+          //     min,
+          //     minCircleSize,
+          //     max,
+          //     maxCircleSize
+          // ]
 
 
           $("#minCircleVal").html(`${min}`);
@@ -775,7 +931,6 @@
 
 
           map.on('click', 'plants', function(e) {
-            console.log(e);
               map.getCanvas().style.cursor = 'pointer';
               var latitude = e.features[0].properties.latitude;
               var longitude = e.features[0].properties.longitude;
@@ -793,9 +948,9 @@
 
               var popupClass="";
               if(place == 'Continental China/HK'){
-                popupClass = 'china';
+                popupClass = 'chinaHK';
               }else{
-                popupClass = 'hk';
+                popupClass = 'HK';
               }
 
                   popup = new mapboxgl.Popup({
@@ -803,24 +958,10 @@
                           closeOnClick: true,
                           className: popupClass
                       })
-                      .setHTML('<h3 class="popupTitle">' + company + '</h3>' +
-                          '<h4><b> City: </b>' + city + '</h4>' +
-                          '<h4><b> State: </b>' + state + '</h4>' +
-                          '<h4><b> Number of cattle: </b>' + sif + '</h4>')
+                      .setHTML('<h4 class="popupClass"><b>Company</b>: ' + company + '</h4>')
                       .setLngLat([longitude, latitude])
                       .addTo(map);
 
-                      console.log(popup);
-
-
-              $(`.button.${popupClass}`).hover(function() {
-                  console.log("hover")
-                  $(".button a").css("color", "white");
-                  $(this).css("background-color", "#F4B657");
-              }, function() {
-                  $(".button a").css("color", "#F4B657");
-                  $(this).css("background-color", "white");
-              });
               $(".mapboxgl-popup-tip").css("border-bottom-color", "#F4B657");
 
 
@@ -831,50 +972,38 @@
           //mobile
 
           map.on('touchstart', 'layer1', function(e) {
-            console.log(e);
-              map.getCanvas().style.cursor = 'pointer';
-              var latitude = e.features[0].properties.latitude;
-              var longitude = e.features[0].properties.longitude;
-              var basin = e.features[0].properties.basin;
-              var sub_basin = e.features[0].properties.sub_basin;
-              var area = e.features[0].properties.area;
-              var elevation = e.features[0].properties.elevation;
-              var hazard_rank = e.features[0].properties.hazard_rank;
-              var country = e.features[0].properties.country;
+            map.getCanvas().style.cursor = 'pointer';
+            var latitude = e.features[0].properties.latitude;
+            var longitude = e.features[0].properties.longitude;
+            var company = e.features[0].properties.company;
+            var city = e.features[0].properties.city;
+            var state = e.features[0].properties.state;
+            var place = e.features[0].properties.place;
+            var sif = e.features[0].properties.SIF;
+            var amazon = e.features[0].properties.Amazon;
 
 
-              while (Math.abs(e.lngLat.lng - latitude) > 180) {
-                  latitude += e.lngLat.lng > latitude ? 360 : -360;
-              }
+            while (Math.abs(e.lngLat.lng - latitude) > 180) {
+                latitude += e.lngLat.lng > latitude ? 360 : -360;
+            }
 
-              var popupClass = "one";
+            var popupClass="";
+            if(place == 'Continental China/HK'){
+              popupClass = 'chinaHK';
+            }else{
+              popupClass = 'HK';
+            }
 
+                popup = new mapboxgl.Popup({
+                        closeButton: true,
+                        closeOnClick: true,
+                        className: popupClass
+                    })
+                    .setHTML('<h4 class="popupClass"><b>Company</b>: ' + company + '</h4>')
+                    .setLngLat([longitude, latitude])
+                    .addTo(map);
 
-                  popup = new mapboxgl.Popup({
-                          closeButton: true,
-                          closeOnClick: true,
-                          className: popupClass
-                      })
-                      .setHTML('<h3 class="popupTitle">' + basin + ' Basin</h3>' +
-                          '<h4><b> Subbasin: </b>' + sub_basin + '</h4>' +
-                          '<h4><b> Elevation: </b>' + elevation + ' m</h4>' +
-                          '<h4><b> Area: </b>' + area + ' sq. km</h4>' +
-                          '<h4><b> Country: </b>' + country + '</h4>' )
-                      .setLngLat([longitude, latitude])
-                      .addTo(map);
-
-                      console.log(popup);
-
-
-              $(`.button.${popupClass}`).hover(function() {
-                  console.log("hover")
-                  $(".button a").css("color", "white");
-                  $(this).css("background-color", "#F4B657");
-              }, function() {
-                  $(".button a").css("color", "#F4B657");
-                  $(this).css("background-color", "white");
-              });
-              $(".mapboxgl-popup-tip").css("border-bottom-color", "#F4B657");
+            $(".mapboxgl-popup-tip").css("border-bottom-color", "#F4B657");
 
 
           });
