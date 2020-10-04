@@ -3,8 +3,8 @@
    <head>
       <meta charset="utf-8">
       <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-      <title>Meat plants in the Amazon region licensed to export beef to China & Hong Kong</title>
-      <meta name="description" content="Meat plants in the Amazon region that export beef to China & Hong Kong">
+      <title>Brazilian meat plants licensed to export to Mainland China and Hong Kong</title>
+      <meta name="description" content="Brazilian meat plants licensed to export to Mainland China and Hong Kong">
       <meta name="author" content="Julia Janicki">
       <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
       <link href="https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
         line-height: 25px;
       }
       h2 {
-        font-size: 15px;
+        font-size: 14px;
         line-height: 20px;
         margin-bottom: 10px;
       }
@@ -39,7 +39,7 @@
         color: #2dc4b2;
       }
       .subtitle{
-        font-size:14px;
+        font-size:16px;
         margin-top: 30px;
       }
       #console {
@@ -171,6 +171,7 @@
 
       .circlesLegend{
         margin-top: 5px;
+        margin-left:-3px;
       }
 
       .flip{
@@ -415,10 +416,13 @@
           margin-left:2px;
         }
         h1{
-          font-size:16px;
+          font-size:15px;
         }
         h2{
-          font-size:12px;
+          font-size:11.5px;
+        }
+        .subtitle{
+          font-size:13px;
         }
         #console{
           padding: 10px 20px;
@@ -471,7 +475,7 @@
         font-size:14px;
         }
         h2{
-        font-size:12px;
+        font-size:11.5px;
         }
         .instruction p{
           font-size:10px;
@@ -481,9 +485,7 @@
         }
         #legendCol2{
         margin-left: -20px !important;
-        }
-
-
+       }
 
        .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
        .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
@@ -494,7 +496,7 @@
        .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
        .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
        .mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip{
-           display:none !important;
+           /* display:none !important; */
        }
        #logo{
          position: absolute;
@@ -506,14 +508,14 @@
        }
       }
       @media screen and (max-width: 500px) {
-        .mapboxgl-popup {
+        /* .mapboxgl-popup {
           transform:none !important;
           top: 20px;
           left: 0;
           right: 0;
           margin-left: auto;
           margin-right: auto;
-        }
+        } */
       }
       </style>
    </head>
@@ -527,7 +529,7 @@
             <span id="toggleConsole">
             <img src="./img/toggle.png" />
             </span>
-            <h1 id='title'>Meat plants in the Amazon region licensed to export beef to China & Hong Kong</h1>
+            <h1 id='title'>Brazilian meat plants licensed to export to Mainland China and Hong Kong</h1>
             <div class='row itemWrapper'>
                <h2 class="subtitle"> Fires </h2>
             </div>
@@ -569,7 +571,7 @@
                 <div class="circlesRegion china"></div>
               </div>
               <div class="circlesLegend item">
-                 <h2>Continental China/HK</h2>
+                 <h2>Mainland China/Hong Kong</h2>
               </div>
             </div>
             <div class="itemWrapper">
@@ -581,7 +583,7 @@
               </div>
             </div>
             <div class='row itemWrapper'>
-               <h2 class="subtitle"> Amazon </h2>
+               <h2 class="subtitle"> Brazilian Amazon </h2>
             </div>
             <div class='row itemWrapper'>
               <div class="item">
@@ -590,7 +592,7 @@
             </div>
 
             <div class="instruction itemWrapper" id="instruction">
-               <p class="item">Click on the circles for more information</p>
+               <p class="item">Click on the circles to see company name</p>
             </div>
          </div>
          <!-- end line -->
