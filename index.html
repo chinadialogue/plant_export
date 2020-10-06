@@ -600,7 +600,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
       <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.14.2/d3.js"></script>
-      <!-- <script src="./data/fires_cleaned.js"></script> -->
       <script src="./data/firesJuly.js"></script>
       <script src="./data/firesAugust.js"></script>
       <script src="./data/firesSept.js"></script>
@@ -752,13 +751,6 @@
                 }
             });
 
-            // 'circle-color': ["case", ["<=",
-            //   ["to-string", ["get", "datahora"]],
-            //   ["to-string", "2020-08-01"]
-            // ], "#fed976", ["<=",
-            //   ["to-string", ["get", "datahora"]],
-            //   ["to-string", "2020-09-01"]
-            // ],"#fd8d3c","#DF4C3B"]
 
             map.addLayer({
                 id: 'fires2',
@@ -789,23 +781,19 @@
             });
 
             Tabletop.init({
-                key: 'https://docs.google.com/spreadsheets/d/1krNuJXPYF9y4J2dSO4yolvpuflAAdQdKLuPw-a8mNjU/edit?usp=sharing',
+                key: 'https://docs.google.com/spreadsheets/d/1y0FiCSmbtbG0O1kT1MYbumk8Jl9JBcgfSY6gegVp1ns/edit?usp=sharing',
+                // 'https://docs.google.com/spreadsheets/d/1krNuJXPYF9y4J2dSO4yolvpuflAAdQdKLuPw-a8mNjU/edit?usp=sharing',
                 callback: onDataLoad,
                 simpleSheet: true
             });
 
-        // map.on('render', onDataLoad);
       }
 
 
 
       function onDataLoad(data) {
-        console.log(data);
-
 
           $('#loading').hide();
-
-
 
           document.getElementById('filterFiresJuly').addEventListener('change', function(e) {
 
@@ -844,7 +832,6 @@
           data.forEach(function(row) {
 
               // to deal with null lat lon values
-
 
                   if (+row.SIF < min) {
                       min = +row.SIF;
@@ -902,21 +889,6 @@
                   'circle-opacity': 0.8
               }
           });
-
-          // 'circle-radius': [
-          //     'interpolate',
-          //     ['linear'],
-          //     ['get', 'SIF'],
-          //     min,
-          //     minCircleSize,
-          //     max,
-          //     maxCircleSize
-          // ]
-
-
-          $("#minCircleVal").html(`${min}`);
-          $("#maxCircleVal").html(`${max}`);
-
 
 
 
@@ -1006,7 +978,6 @@
                     .addTo(map);
 
             $(".mapboxgl-popup-tip").css("border-bottom-color", "#F4B657");
-
 
           });
 
